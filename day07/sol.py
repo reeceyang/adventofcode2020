@@ -3,6 +3,7 @@ line = input()
 counter = 1
 bags = {}
 bags_dp = {} #-1 can't contain, 0 don't know, 1 can contain
+visited = {}
 while line != "":
     tokens = line.split()
     color = tokens[0] + " " + tokens[1]
@@ -21,10 +22,12 @@ while line != "":
                 bags_dp[color] = 1;
             current = ""
     bags[color] = inside
+    visited[color] = False
     line = input()
 
 total = 0
-def search(color, original): # check if color can contain shiny gold
+def search(color): # check if color can contain shiny gold
+    visited[color] = True
     if bags_dp[color] == 1:
         return True
     elif bags_dp[color] == -1:
@@ -36,18 +39,20 @@ def search(color, original): # check if color can contain shiny gold
                 bags_dp[color] = 1
                 return True
         for bag in bags[color]:
-            if search(color, original):
+            if not visited[bag] and search(bag):
                 bags_dp[color] = 1
                 return True
     bags_dp[color] = -1
+    print("giving up on",color)
     return False
 
 
 for color, inside in bags.items():
-    if search(color, color):
-        total += 1
+    search(color)
+
 
 for color, inside in bags_dp.items():
-    print(inside)
+    if (inside == 1 and not color == "shiny gold"):
+        total += 1
 
 print(total)
