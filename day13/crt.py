@@ -6,7 +6,7 @@ incr = 0
 N = 1
 for bus in buses:
     if not bus == "x":
-        ids.append((int(bus), int(bus) - incr)) # t cong to -1 mod bus id
+        ids.append((int(bus), int(bus) - incr)) # t cong to -incr mod bus id
         print((int(bus), int(bus) - incr))
         N *= int(bus)
     incr += 1
